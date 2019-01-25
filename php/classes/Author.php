@@ -1,4 +1,12 @@
 <?php
+namespace Atsosie11/Author;
+
+require_once ("autoload.php");
+require_one (
+
+
+)
+
 /**
  * Typical profile for website
  *
@@ -6,7 +14,7 @@
  *
  * @Author Adrian Tsosie <atsosie11@cnm.edu>
  */
-class Profile {
+elass Author {
 	/**
 	 * id for the Author name.
 	 */
@@ -44,9 +52,8 @@ class Profile {
 	/**
 	 *mutator method for author id
 	 *
-	 * @param  Uuid| string $newProfileId value of new profile id
-	 * @throws \RangeException if $newProfileId is not positive
-	 * @throws \TypeError if the profile Id is no
+	 * @param  Uuid| string $newAuthorId value of new author id
+	 * @throws \RangeException if $newAuthorId is not positive
 	 */
 
 	/**
