@@ -1,5 +1,5 @@
 <?php
-namespace Atsosie11/Author;
+namespace Atsosie11\Author;
 
 require_once ("autoload.php");
 require_once (dirname(__DIR__, 2) . "/vendor/autoload.php");
@@ -43,13 +43,30 @@ class Author {
  	*/
 	private $authorUserName;
 
+	public function __construct($newAuthorId, $newAuthorAvatarUrl, string $newAuthorActivationToken, $newAuthorEmail,
+										 $newAuthorHash, $newAuthorUserName= null) {
+		try {
+			$this->setAuthorId($newAuthorId);
+			$this->setAuthorAvatarUrl($newAuthorAvatarUrl);
+			$this->setAuthorActivationToken($newAuthorActivationToken);
+			$this->setAuthorEmail($newAuthorEmail);
+			$this->setAuthorHash($newAuthorHash);
+			$this->setAuthorUserName($newAuthorUserName);
+		}
+			//determine what exception type was thrown
+		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+	}
+
 
 	/**
 	 * accessor method for author id
 	 *
 	 * @return Uuid value of author id (or null if new author)
 	 **/
-	public function getAuthorId(); {
+	public function getAuthorId() : Uuid {
 		return ($this->authorId);
 	}
 	/**
@@ -112,16 +129,16 @@ class Author {
 	 * @throws \RangeException if the token is not exactly 32 characters
 	 * @throws \TypeError if the activation token is not a string
 	 */
-	public function setAuthorId( $newAuthorId) : void {
+	public function setAuthorActivationToken( $newAuthorActivationToken) : void {
 		try {
-			$uuid = self::validateUuid($newAuthorId);
+			$uuid = self::validateUuid($newAuthorActivationToken);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
-		// convert and store the AuthorId
-		$this->authorId = $uuid;
+		// convert and store the author activation token
+		$this->authorActivationToken = $uuid;
 }
 
 		/**
@@ -140,7 +157,7 @@ class Author {
 	 * @throws \RangeException if $newAuthorEmail is > 32 characters
 	 * @throws \TypeError if $newAuthorEmail is not a string
 	 **/
-	public function setAuthorId( $newAuthorId) : void {
+	public function setAuthorId($newAuthorId) : void {
 		try {
 			$uuid = self::validateUuid($newAuthorId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -168,7 +185,7 @@ class Author {
 	 * @throws \RangeException if $newAuthorHash is > 32 characters
 	 * @throws \TypeError if $newAuthorHash is not a string
 	 **/
-public function setAuthorId( $newAuthorId) : void {
+public function setAuthorId($newAuthorId) : void {
 	try {
 		$uuid = self::validateUuid($newAuthorId);
 	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
@@ -196,7 +213,7 @@ public function setAuthorId( $newAuthorId) : void {
 	 * @throws \RangeException if $newAuthorUserName is > 32 characters
 	 * @throws \TypeError if $newAuthorUserName is not a string
 	 **/
-public function setAuthorId( $newAuthorId) : void {
+public function setAuthorId($newAuthorId) : void {
 	try {
 		$uuid = self::validateUuid($newAuthorId);
 	} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
