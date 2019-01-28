@@ -12,6 +12,8 @@ use Ramsey\Uuid\Uuid;
  * @version 3.0.0
  */
 class Author {
+	use ValidateDate;
+	use ValidateUuid;
 	/**
 	 * id for the Author name.
 	 * @var Uuid authorId
