@@ -210,6 +210,27 @@ class Author {
 	public function authorUserName(): string {
 		return ($this->authorHash);
 	}
+
+	/**
+	 * mutator method for author user name
+	 *
+	 * @param string $authorUserName new value of at handle
+	 * @throws \InvalidArgumentException if $newAuthorUserName is not a string or insecure
+	 * @throws \RangeException if $newAuthorUserName is > 32 characters
+	 * @throws \TypeError if $newAuthorUserName is not a string
+	 **/
+	public function setAuthorUserNme($newAuthorUserName): void {
+		try {
+			$uuid = self::validateUuid($newAuthorUserName);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+
+		// convert and store the AuthorUserName
+		$this->authorUserName = $uuid;
+	}
+
 }
 
 
