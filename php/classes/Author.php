@@ -105,16 +105,21 @@ class Author {
 	 * @throws \RangeException if the token is not exactly 32 characters
 	 * @throws \TypeError if the activation token is not a string
 	 */
-	public function setAuthorAvatarUrl($newAuthorAvatarUrl): void {
-		try {
-			$uuid = self::validateUuid($newAuthorAvatarUrl);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+	public function setAuthorAvatarUrl(string $newAuthorAvatarUrl) : void {
+		// verify the tweet content is secure
+		$newAuthorAvatarUrl = trim($newAuthorAvatarUrl);
+		$newAuthorAvatarUrl = filter_var($newAuthorAvatarUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorAvatarUrl) === true) {
+			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
 		}
 
-		// convert and store the author avatar url
-		$this->authorAvatarUrl = $uuid;
+		// verify the tweet content will fit in the database
+		if(strlen($newAuthorAvatarUrl) > 140) {
+			throw(new \RangeException("tweet content too large"));
+		}
+
+		// store the tweet content
+		$this->authorAvatarUrl = $newAuthorAvatarUrl;
 	}
 
 	/**
@@ -133,16 +138,21 @@ class Author {
 	 * @throws \RangeException if the token is not exactly 32 characters
 	 * @throws \TypeError if the activation token is not a string
 	 */
-	public function setAuthorActivationToken($newAuthorActivationToken): void {
-		try {
-			$uuid = self::validateUuid($newAuthorActivationToken);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+	public function setAuthorActivationToken(string $newAuthorActivationToken) : void {
+		// verify the tweet content is secure
+		$newAuthorActivationToken = trim($newAuthorActivationToken);
+		$newAuthorActivationToken = filter_var($newAuthorActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorActivationToken) === true) {
+			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
 		}
 
-		// convert and store the author activation token
-		$this->authorActivationToken = $uuid;
+		// verify the tweet content will fit in the database
+		if(strlen($newAuthorActivationToken) > 140) {
+			throw(new \RangeException("tweet content too large"));
+		}
+
+		// store the tweet content
+		$this->authorActivationToken = $newAuthorActivationToken;
 	}
 
 	/**
@@ -162,16 +172,21 @@ class Author {
 	 * @throws \RangeException if $newAuthorEmail is > 32 characters
 	 * @throws \TypeError if $newAuthorEmail is not a string
 	 **/
-	public function setAuthorEmail($newAuthorEmail): void {
-		try {
-			$uuid = self::validateUuid($newAuthorEmail);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+	public function setAuthorEmail(string $newAuthorEmail) : void {
+		// verify the tweet content is secure
+		$newAuthorEmail = trim($newAuthorEmail);
+		$newAuthorEmail = filter_var($newAuthorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorEmail) === true) {
+			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
 		}
 
-		// convert and store the AuthorId
-		$this->authorEmail = $uuid;
+		// verify the tweet content will fit in the database
+		if(strlen($newAuthorEmail) > 140) {
+			throw(new \RangeException("tweet content too large"));
+		}
+
+		// store the tweet content
+		$this->authorEmail = $newAuthorEmail;
 	}
 
 	/**
@@ -191,16 +206,21 @@ class Author {
 	 * @throws \RangeException if $newAuthorHash is > 32 characters
 	 * @throws \TypeError if $newAuthorHash is not a string
 	 **/
-	public function setAuthorHash($newAuthorHash): void {
-		try {
-			$uuid = self::validateUuid($newAuthorHash);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+	public function setAuthorHash(string $newAuthorHash) : void {
+		// verify the tweet content is secure
+		$newAuthorHash = trim($newAuthorHash);
+		$newAuthorHash = filter_var($newAuthorHash, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorHash) === true) {
+			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
 		}
 
-		// convert and store the AuthorHash
-		$this->authorHash = $uuid;
+		// verify the tweet content will fit in the database
+		if(strlen($newAuthorHash) > 140) {
+			throw(new \RangeException("tweet content too large"));
+		}
+
+		// store the tweet content
+		$this->authorHash = $newAuthorHash;
 	}
 
 
@@ -221,16 +241,21 @@ class Author {
 	 * @throws \RangeException if $newAuthorUserName is > 32 characters
 	 * @throws \TypeError if $newAuthorUserName is not a string
 	 **/
-	public function setAuthorUserName($newAuthorUserName): void {
-		try {
-			$uuid = self::validateUuid($newAuthorUserName);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+	public function setAuthorUserName(string $newUserName) : void {
+		// verify the tweet content is secure
+		$newhAuthorUserName = trim($newAuthorUserName);
+		$newAuthorUserName = filter_var($newAuthorUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorUserName) === true) {
+			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
 		}
 
-		// convert and store the AuthorUserName
-		$this->authorUserName = $uuid;
+		// verify the tweet content will fit in the database
+		if(strlen($newAuthorUserName) > 140) {
+			throw(new \RangeException("tweet content too large"));
+		}
+
+		// store the tweet content
+		$this->authorUserName = $newAuthorUserName;
 	}
 
 }
