@@ -1,8 +1,8 @@
 <?php
 namespace Atsosie11\Author;
 
-require_once ("autoload.php");
-require_once (dirname(__DIR__, 2) . "/vendor/autoload.php");
+require_once("autoload.php");
+require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 
 use Ramsey\Uuid\Uuid;
 /**
@@ -254,7 +254,6 @@ class Author {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-
 		// convert and store the AuthorId
 		$this->authorId = $uuid;
 	}
