@@ -45,8 +45,8 @@ class Author {
 	 */
 	private $authorUserName;
 
-	public function __construct($newAuthorId, $newAuthorAvatarUrl, string $newAuthorActivationToken, $newAuthorEmail,
-										 $newAuthorHash, $newAuthorUserName = null) {
+	public function __construct($newAuthorId, string $newAuthorAvatarUrl, string $newAuthorActivationToken, string $newAuthorEmail,
+										 string $newAuthorHash, string $newAuthorUserName) {
 		try {
 			$this->setAuthorId($newAuthorId);
 			$this->setAuthorAvatarUrl($newAuthorAvatarUrl);
