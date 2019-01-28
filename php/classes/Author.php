@@ -160,16 +160,16 @@ class Author {
 	 * @throws \RangeException if $newAuthorEmail is > 32 characters
 	 * @throws \TypeError if $newAuthorEmail is not a string
 	 **/
-	public function setAuthorId($newAuthorId): void {
+	public function setAuthorEmail($newAuthorEmail): void {
 		try {
-			$uuid = self::validateUuid($newAuthorId);
+			$uuid = self::validateUuid($newAuthorEmail);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
 		// convert and store the AuthorId
-		$this->authorId = $uuid;
+		$this->authorEmail = $uuid;
 	}
 
 	/**
@@ -189,17 +189,18 @@ class Author {
 	 * @throws \RangeException if $newAuthorHash is > 32 characters
 	 * @throws \TypeError if $newAuthorHash is not a string
 	 **/
-	public function setAuthorId($newAuthorId): void {
+	public function setAuthorHash($newAuthorHash): void {
 		try {
-			$uuid = self::validateUuid($newAuthorId);
+			$uuid = self::validateUuid($newAuthorHash);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
-		// convert and store the AuthorId
-		$this->authorId = $uuid;
+		// convert and store the AuthorHash
+		$this->authorHash = $uuid;
 	}
+
 
 	/**
 	 * accessor method for author user name
@@ -208,54 +209,6 @@ class Author {
 	 **/
 	public function authorUserName(): string {
 		return ($this->authorHash);
-	}
-
-	/**
-	 * mutator method for author user name
-	 *
-	 * @param string $authorUserName new value of at handle
-	 * @throws \InvalidArgumentException if $newAuthorUserName is not a string or insecure
-	 * @throws \RangeException if $newAuthorUserName is > 32 characters
-	 * @throws \TypeError if $newAuthorUserName is not a string
-	 **/
-	public function setAuthorId($newAuthorId): void {
-		try {
-			$uuid = self::validateUuid($newAuthorId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
-		}
-
-		// convert and store the AuthorId
-		$this->authorId = $uuid;
-	}
-
-	/**
-	 * accessor method for author user name
-	 *
-	 * @return string value of author user name
-	 **/
-	public function authorUserName(): string {
-		return ($this->authorHash);
-	}
-
-	/**
-	 * mutator method for author user name
-	 *
-	 * @param string $authorUserName new value of at handle
-	 * @throws \InvalidArgumentException if $newAuthorUserName is not a string or insecure
-	 * @throws \RangeException if $newAuthorUserName is > 32 characters
-	 * @throws \TypeError if $newAuthorUserName is not a string
-	 **/
-	public function setAuthorId($newAuthorId): void {
-		try {
-			$uuid = self::validateUuid($newAuthorId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
-		}
-		// convert and store the AuthorId
-		$this->authorId = $uuid;
 	}
 }
 
