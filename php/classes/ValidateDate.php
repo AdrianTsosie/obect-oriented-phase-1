@@ -1,5 +1,5 @@
 <?php
-namespace Deepdivedylan\DataDesign;
+namespace Atsosie11\Author;
 /**
  * Trait to Validate a mySQL Date
  *

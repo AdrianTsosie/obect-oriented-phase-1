@@ -208,7 +208,7 @@ class Author {
 	 * @return string value of author user name
 	 **/
 	public function authorUserName(): string {
-		return ($this->authorHash);
+		return ($this->authorUserName);
 	}
 
 	/**
@@ -219,7 +219,7 @@ class Author {
 	 * @throws \RangeException if $newAuthorUserName is > 32 characters
 	 * @throws \TypeError if $newAuthorUserName is not a string
 	 **/
-	public function setAuthorUserNme($newAuthorUserName): void {
+	public function setAuthorUserName($newAuthorUserName): void {
 		try {
 			$uuid = self::validateUuid($newAuthorUserName);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
