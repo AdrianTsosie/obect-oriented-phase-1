@@ -241,9 +241,9 @@ class Author {
 	 * @throws \RangeException if $newAuthorUserName is > 32 characters
 	 * @throws \TypeError if $newAuthorUserName is not a string
 	 **/
-	public function setAuthorUserName(string $newUserName) : void {
+	public function setAuthorUserName(string $newAuthorUserName) : void {
 		// verify the tweet content is secure
-		$newhAuthorUserName = trim($newAuthorUserName);
+		$newAuthorUserName = trim($newAuthorUserName);
 		$newAuthorUserName = filter_var($newAuthorUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newAuthorUserName) === true) {
 			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
@@ -257,7 +257,62 @@ class Author {
 		// store the tweet content
 		$this->authorUserName = $newAuthorUserName;
 	}
+/**
+ * inserts this Author into mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function insert(\PDO $pdo) : void {
 
+	// create query template
+	$query = "INSERT INTO Author(authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUserName) 		VALUES(:authorId, :authorAvatarUrl, :authorActivationToken, :authorEmail, :authorHash, :authorUserName)";
+	$statement = $pdo->prepare($query);
+
+	// bind the member variables to the place holders in the template
+	//$formattedDate = $this->tweetDate->format("Y-m-d H:i:s.u");
+	$parameters = ["authorId" => $this->authorId->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl->getBytes(), "authorActivationToken" => $this->authorActivationToken, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUserName" => $this->authorUserName];
+	$statement->execute($parameters);
 }
+
+	/**
+	 * updates this Tweet in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo) : void {
+
+		// create query template
+		$query = "UPDATE author SET authorEmail = :tauthorEmail, authorHash = :authorHash, authorHash = :authorHash WHERE authorId = :authorId";
+		$statement = $pdo->prepare($query);
+
+
+		//$formattedDate = $this->tweetDate->format("Y-m-d H:i:s.u");
+		$parameters = ["authorId" => $this->authorId->getBytes(),"authorAvatarUrl" => $this->authorAvatarUrl->getBytes(), "authorUserName" => $this->authorUserName, "authorHash" => $authorHash];
+		$statement->execute($parameters);
+}
+
+
+/**
+ * deletes this Author from mySQL
+ *
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function delete(\PDO $pdo) : void {
+
+	// create query template
+	$query = "DELETE FROM author WHERE authorHash = :authorHash";
+	$statement = $pdo->prepare($query);
+
+	// bind the member variables to the place holder in the template
+	$parameters = ["authorHash" => $this->authorHash->getBytes()];
+	$statement->execute($parameters);
+}
+
 
 
