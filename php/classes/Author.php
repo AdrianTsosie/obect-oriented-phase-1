@@ -54,7 +54,7 @@ class Author {
 			$this->setAuthorEmail($newAuthorEmail);
 			$this->setAuthorHash($newAuthorHash);
 			$this->setAuthorUserName($newAuthorUserName);
-		} //determine what exception type was thrown
+		}
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -85,7 +85,6 @@ class Author {
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
-		// convert and store the author Id
 		$this->authorId = $uuid;
 	}
 
@@ -106,19 +105,16 @@ class Author {
 	 * @throws \TypeError if the activation token is not a string
 	 */
 	public function setAuthorAvatarUrl(string $newAuthorAvatarUrl) : void {
-		// verify the tweet content is secure
 		$newAuthorAvatarUrl = trim($newAuthorAvatarUrl);
 		$newAuthorAvatarUrl = filter_var($newAuthorAvatarUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newAuthorAvatarUrl) === true) {
-			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
+			throw(new \InvalidArgumentException("author content is empty or insecure"));
 		}
 
-		// verify the tweet content will fit in the database
 		if(strlen($newAuthorAvatarUrl) > 140) {
-			throw(new \RangeException("tweet content too large"));
+			throw(new \RangeException("author content too large"));
 		}
 
-		// store the tweet content
 		$this->authorAvatarUrl = $newAuthorAvatarUrl;
 	}
 
@@ -139,19 +135,16 @@ class Author {
 	 * @throws \TypeError if the activation token is not a string
 	 */
 	public function setAuthorActivationToken(string $newAuthorActivationToken) : void {
-		// verify the tweet content is secure
 		$newAuthorActivationToken = trim($newAuthorActivationToken);
 		$newAuthorActivationToken = filter_var($newAuthorActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newAuthorActivationToken) === true) {
-			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
+			throw(new \InvalidArgumentException("author content is empty or insecure"));
 		}
 
-		// verify the tweet content will fit in the database
 		if(strlen($newAuthorActivationToken) > 140) {
-			throw(new \RangeException("tweet content too large"));
+			throw(new \RangeException("author content too large"));
 		}
 
-		// store the tweet content
 		$this->authorActivationToken = $newAuthorActivationToken;
 	}
 
@@ -173,19 +166,16 @@ class Author {
 	 * @throws \TypeError if $newAuthorEmail is not a string
 	 **/
 	public function setAuthorEmail(string $newAuthorEmail) : void {
-		// verify the tweet content is secure
 		$newAuthorEmail = trim($newAuthorEmail);
 		$newAuthorEmail = filter_var($newAuthorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newAuthorEmail) === true) {
-			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
+			throw(new \InvalidArgumentException("author content is empty or insecure"));
 		}
 
-		// verify the tweet content will fit in the database
 		if(strlen($newAuthorEmail) > 140) {
-			throw(new \RangeException("tweet content too large"));
+			throw(new \RangeException("author content too large"));
 		}
 
-		// store the tweet content
 		$this->authorEmail = $newAuthorEmail;
 	}
 
@@ -207,16 +197,14 @@ class Author {
 	 * @throws \TypeError if $newAuthorHash is not a string
 	 **/
 	public function setAuthorHash(string $newAuthorHash) : void {
-		// verify the tweet content is secure
 		$newAuthorHash = trim($newAuthorHash);
 		$newAuthorHash = filter_var($newAuthorHash, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newAuthorHash) === true) {
-			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
+			throw(new \InvalidArgumentException("author content is empty or insecure"));
 		}
 
-		// verify the tweet content will fit in the database
 		if(strlen($newAuthorHash) > 140) {
-			throw(new \RangeException("tweet content too large"));
+			throw(new \RangeException("author content too large"));
 		}
 
 		// store the tweet content
@@ -242,21 +230,19 @@ class Author {
 	 * @throws \TypeError if $newAuthorUserName is not a string
 	 **/
 	public function setAuthorUserName(string $newAuthorUserName) : void {
-		// verify the tweet content is secure
 		$newAuthorUserName = trim($newAuthorUserName);
 		$newAuthorUserName = filter_var($newAuthorUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($newAuthorUserName) === true) {
 			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
 		}
 
-		// verify the tweet content will fit in the database
 		if(strlen($newAuthorUserName) > 140) {
 			throw(new \RangeException("tweet content too large"));
 		}
 
-		// store the tweet content
 		$this->authorUserName = $newAuthorUserName;
 	}
+
 /**
  * inserts this Author into mySQL
  *
@@ -266,12 +252,9 @@ class Author {
  **/
 public function insert(\PDO $pdo) : void {
 
-	// create query template
 	$query = "INSERT INTO Author(authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUserName) 		VALUES(:authorId, :authorAvatarUrl, :authorActivationToken, :authorEmail, :authorHash, :authorUserName)";
 	$statement = $pdo->prepare($query);
 
-	// bind the member variables to the place holders in the template
-	//$formattedDate = $this->tweetDate->format("Y-m-d H:i:s.u");
 	$parameters = ["authorId" => $this->authorId->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl->getBytes(), "authorActivationToken" => $this->authorActivationToken, "authorEmail" => $this->authorEmail, "authorHash" => $this->authorHash, "authorUserName" => $this->authorUserName];
 	$statement->execute($parameters);
 }
@@ -285,13 +268,10 @@ public function insert(\PDO $pdo) : void {
 	 **/
 	public function update(\PDO $pdo) : void {
 
-		// create query template
 		$query = "UPDATE author SET authorEmail = :tauthorEmail, authorHash = :authorHash, authorHash = :authorHash WHERE authorId = :authorId";
 		$statement = $pdo->prepare($query);
 
-
-		//$formattedDate = $this->tweetDate->format("Y-m-d H:i:s.u");
-		$parameters = ["authorId" => $this->authorId->getBytes(),"authorAvatarUrl" => $this->authorAvatarUrl->getBytes(), "authorUserName" => $this->authorUserName, "authorHash" => $authorHash];
+		$parameters = ["authorId" => $this->authorId->getBytes(),"authorAvatarUrl" => $this->authorAvatarUrl->getBytes(), "authorUserName" => $this->authorUserName, "authorHash" => $this->authorHash];
 		$statement->execute($parameters);
 }
 
@@ -305,14 +285,73 @@ public function insert(\PDO $pdo) : void {
  **/
 public function delete(\PDO $pdo) : void {
 
-	// create query template
 	$query = "DELETE FROM author WHERE authorHash = :authorHash";
 	$statement = $pdo->prepare($query);
 
-	// bind the member variables to the place holder in the template
 	$parameters = ["authorHash" => $this->authorHash->getBytes()];
 	$statement->execute($parameters);
 }
 
+	/**
+	 * gets the Author by authorId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param Uuid|string $authorId author id to search for
+	 * @return Author|null Author found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when a variable are not the correct data type
+	 **/
+	public static function getAuthorByAuthorId(\PDO $pdo, $authorId) : ?Author {
+		try {
+			$tweetId = self::validateUuid($authorId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
 
+		$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUserName FROM author WHERE authorId = :authorId";
+		$statement = $pdo->prepare($query);
+
+		$parameters = ["authorId" => $authorId->getBytes()];
+		$statement->execute($parameters);
+
+		try {
+			$author = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$author = new Author($row["authorId"], $row["authorAvatarUrl"], $row["authorActivationToken"], $row["authorEmail"], 				$row{"authorHash"}, $row{"authorUserName"});
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($authorId);
+	}
+
+	/**
+	 * gets all Tweets
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of Author found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllAuthor(\PDO $pdo) : \SPLFixedArray {
+		$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUserName FROM author";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		$tweets = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$tweet = new Author($row["authorId"], $row["authorAvatarUrl"], $row["tivationToken "], $row["authorEmail"], 							$row["authorHash"], $row["authorUserName"]);
+				$author[$author->key()] = $author;
+				$author->next();
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($Author);
+	}
 
